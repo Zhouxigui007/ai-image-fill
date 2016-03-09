@@ -2,10 +2,6 @@
 #include "json2.js";
 #include "utils.js";
 
-var actDoc;
-var selectedObjects;
-
-
 // load xLib
 try {
 	var xLib = new ExternalObject("lib:\PlugPlugExternalObject");
@@ -21,17 +17,3 @@ function dispatchCEPEvent(_type, _data) {
 		eventObj.dispatch();
 	}
 }
-
-$.runScriptFromFile = function(options) {
-	// alert('runScriptFromFile '+options);
-
-	runScriptFromFile(scriptFolderPath+'/'+options);
-	dispatchCEPEvent("My Custom Event", 'runScriptFromFile');
-	return "complete";
-}
-
-$.addRemoteItems = function(data) {
-	// alert(data);
-	addRemoteItems(data);
-}
-

@@ -2,23 +2,35 @@
 /*global $, window, location, CSInterface, SystemPath, themeManager*/
 
 var csInterface = new CSInterface();
-var message = '';
+var clipped = true;
+var placeholderCount = 0;
+var loadedCount = 0;
+var flickrURL = 'https://api.flickr.com/services/rest/?method=flickr.photos.search';
+var keys = {
+  'flickr' : {
+    'api_key': '2cc172fe2157ff04daeee6e8b69b7ee4'
+  }
+}
 
 // Reloads extension panel
 var menuXML = '<Menu> \
   <MenuItem Id="reloadPanel" Label="Reload Panel" Enabled="true" Checked="false"/> \
+  <MenuItem Id="debugPanel" Label="Debug" Enabled="true" Checked="false"/> \
 </Menu>';
 
 csInterface.setPanelFlyoutMenu(menuXML, flyoutMenuCallback);
 csInterface.addEventListener("com.adobe.csxs.events.flyoutMenuClicked", flyoutMenuCallback);
+var debugPanel = false;
 function flyoutMenuCallback(event){
   if (event.type === "com.adobe.csxs.events.flyoutMenuClicked") {
     if(event.data.menuId == 'reloadPanel'){
       location.reload();
+    }else if(event.data.menuId == 'debugPanel'){
+      debugPanel = !debugPanel;
+      csInterface.updatePanelMenuItem("Debug", true, debugPanel);
     }
   }
 }
-
 // Loads / executes a jsx file
 function loadJSXFile(pPath) {
   var scriptPath = csInterface.getSystemPath(SystemPath.EXTENSION) + pPath;
@@ -28,7 +40,6 @@ function loadJSXFile(pPath) {
     alert('error '+e);
   }
 }
-
 function init() {
   csInterface.addEventListener("My Custom Event", function(e) {
     var dataType = typeof(e.data);
@@ -44,8 +55,6 @@ function init() {
     }
     $("#output").html("<br>" + str);
   });
-
-
 
   themeManager.init();
   loadJSXFile("/jsx/main.jsx");
@@ -70,6 +79,9 @@ function init() {
   };
 
   var downloadAndOpenInIllustrator = function(url, name) {
+    if(debugPanel){
+      $('#output').append(url);
+    }
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.responseType = 'arraybuffer';
@@ -88,10 +100,17 @@ function init() {
         window.cep.fs.writeFile(downloadedFile, base64, cep.encoding.Base64);
 
         var data = {
-          'path': downloadedFile
+          'path': downloadedFile,
+          'clipped': clipped
         }
         var stringified = $.stringify(data);
         csInterface.evalScript("$.addRemoteItems("+stringified+")");
+
+        loadedCount ++;
+        if(loadedCount >= placeholderCount - 1){
+          $('#output').empty();
+        }
+
       }
     };
     xhr.send();
@@ -102,27 +121,29 @@ function init() {
     downloadAndOpenInIllustrator(url, n);
   }
 
-  var keys = {
-    'flickr' : {
-      'api_key': 'e54c45ed6c52a5f6871bf8b4dd959902'
-    }
-  }
-  var flickrURL = 'https://api.flickr.com/services/rest/?method=flickr.photos.search';
-
   function searchFlickr(tags){
+    loadedCount = 0;
+    clipped = $('#clip').prop('checked');
+    if(debugPanel){
+      $('#output').append(tags);
+    }
     csInterface.evalScript("app.activeDocument.selection.length;", function(selectionLength){
-      if(selectionLength){
+      if(selectionLength && selectionLength != 0){
+        csInterface.evalScript("$.getPlaceholders();");
+        $('#output').html('Requesting '+selectionLength+' Flickr Image(s)');
+        var page = Math.random() * 20 >> 0 + 1;
         var data = {
           'api_key': keys.flickr.api_key,
           'format': 'json',
-          'tags': tags || 'kitten',
+          'text': tags || 'kitten',
           'sort': 'interestingness-desc',
           'per_page': selectionLength,
-          'page': Math.random() * 5 >> 0,
+          'page': page,
           'nojsoncallback': 1,
-          'content_type': 1,
           'media': 'photos',
-          'orientation':'square'
+          'orientation':'square',
+          'content_type': 7,
+          'parse_tags': 1
         }
         var request = {
           'url': flickrURL,
@@ -130,20 +151,28 @@ function init() {
           'dataType': "json",
           'success': function(response){
             var count = response.photos.photo.length;
+            placeholderCount = count;
+            $('#output').html('Downloading '+count);
             var html = '';
             _.each(response.photos.photo, function(photo){
               var src = 'https://farm'+photo.farm+'.staticflickr.com/'+photo.server+'/'+photo.id+'_'+photo.secret+'.jpg'
               addImageToPlaceholder(src);
-              html += '<img src="'+src+'" width="100"/>';
+              html += src + '<br>';
             });
+            if(debugPanel){
+              $('#output').append(this.url+'<br>'+html+'<br>'+JSON.stringify(response));
+            }
           },
           'error': function(response){
-            $('#output').html('<code>error: <br>' + JSON.stringify(response));
+            $('#output').html(this.url+'<br>'+'<code>error: <br>' + JSON.stringify(response));
           }
         }
         $.ajax(request);
 
+      }else {
+        csInterface.evalScript("alert('Select at least one placeholder')");
       }
+
     });
   }
 
