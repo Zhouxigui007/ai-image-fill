@@ -5,7 +5,7 @@ Simple Adobe Illustrator Panel to generate placeholder image content from Flickr
 ### Installation
 Adobe doesn't make this very straightforward, and I've never had much success packaging and signing extensions. 
 
-##### Download repo, unzip and move folder into the shared extensions folder on disk:
+##### 1. Download repo, unzip and move folder into the shared extensions folder on disk:
 [download](https://github.com/majman/ai-flickr-fill/archive/master.zip)
 
 **Win:** `C:\Program Files (x86)\Common Files\Adobe\CEP\extensions`  
@@ -18,7 +18,7 @@ or
 
 *you may have to create folder if it doesn't already exist*
 
-##### Set `PlayerDebugMode` to 1
+##### 2. Set `PlayerDebugMode` to 1
 
 **Win:** regedit > HKEY_CURRENT_USER/Software/Adobe/CSXS.6, then add a new entry PlayerDebugMode of type "string" with the value of "1".  
 **Mac:** In the terminal, type: defaults write com.adobe.CSXS.6 PlayerDebugMode 1  
