@@ -18,7 +18,7 @@ or
 
 *you may have to create folder if it doesn't already exist*
 
-#### 2. Set `PlayerDebugMode` to 1
+#### 2. Set PlayerDebugMode to 1
 
 **Win:** regedit > HKEY_CURRENT_USER/Software/Adobe/CSXS.6, then add a new entry PlayerDebugMode of type "string" with the value of "1".  
 **Mac:** In the terminal, type: defaults write com.adobe.CSXS.6 PlayerDebugMode 1  
