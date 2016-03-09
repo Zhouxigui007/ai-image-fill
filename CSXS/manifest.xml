@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ExtensionManifest Version="4.0" ExtensionBundleId="com.majman.flickr-fill" ExtensionBundleVersion="2.1.2"
+		ExtensionBundleName="Flickr Fill" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Author>Marshall Jones</Author>
+    <Abstract><![CDATA[Flickr Fill]]></Abstract>
+	<ExtensionList>
+		<Extension Id="com.majman.flickr-fill" Version="2.1.2" />
+	</ExtensionList>
+	<ExecutionEnvironment>
+		<HostList>
+            <Host Name="ILST" Version="[19.0,19.9]" />
+		</HostList>
+		<LocaleList>
+			<Locale Code="All" />
+		</LocaleList>
+		<RequiredRuntimeList>
+			<RequiredRuntime Name="CSXS" Version="5.0" />
+		</RequiredRuntimeList>
+	</ExecutionEnvironment>
+	<DispatchInfoList>
+		<Extension Id="com.majman.flickr-fill">
+			<DispatchInfo >
+				<Resources>
+				<MainPath>./index.html</MainPath>
+				<ScriptPath>./jsx/hostscript.jsx</ScriptPath>
+				</Resources>
+				<Lifecycle>
+					<AutoVisible>true</AutoVisible>
+				</Lifecycle>
+				<UI>
+					<Type>Panel</Type>
+					<Menu>Flickr Fill</Menu>
+					<Geometry>
+						<Size>
+							<Height>120</Height>
+							<Width>300</Width>
+						</Size>
+					</Geometry>
+				</UI>
+			</DispatchInfo>
+		</Extension>
+	</DispatchInfoList>
+</ExtensionManifest>

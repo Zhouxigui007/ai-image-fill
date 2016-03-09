@@ -1,0 +1,153 @@
+/* reset */
+@import "reset.css";
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+html, body, .content {
+  height: 100%;
+}
+
+body {
+  font-family: "Lucida Grande";
+  font-size: 10px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0 10px;
+  background: #424242;
+  border: none;
+  text-transform: capitalize;
+  -webkit-font-smoothing: antialiased;
+  /*-webkit-user-select: none;*/
+}
+a {
+  text-decoration: none;
+  color: inherit;
+  text-shadow: inherit;
+}
+
+.info {
+  font-size: 10px;
+  padding: 4px 0 0;
+  line-height: 14px;
+  text-transform: none;
+}
+
+
+.button {
+  font-family: inherit;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  display: inline-block;
+  margin: 0 5px 5px 0;
+  padding: 0 8px;
+  height: 24px;
+  line-height: 24px;
+  border-radius: 2px;
+  border: none;
+  vertical-align: top;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.5) inset,
+    0 1px rgba(255,255,255, .15);
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+  text-transform: capitalize;
+  -webkit-font-smoothing: antialiased;
+}
+
+.input-empty{
+  opacity: .5;
+}
+input[type="text"] {
+  /*background: #ffffff;*/
+  width: 40px;
+  font-family:inherit;
+  font-size: inherit;
+  outline: 0;
+  border: 0;
+  line-height: 15px;
+  padding: 1px 3px 0;
+  -webkit-border-radius: 1px;
+
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.75) inset;
+  cursor: text;
+  margin: 0;
+  box-sizing: border-box;
+
+}
+
+.output-panel {
+  background: rgba(0,0,0,0.1);
+  margin-top: 5px;
+  padding: 5px;
+  opacity: 0.8;
+  text-transform: none;
+}
+.output-panel:empty {
+  display: none;
+}
+
+
+.button-with-info .info{
+  font-size: 9px;
+  line-height: 24px;
+}
+
+.button-with-options {
+  display: flex;
+}
+.button-with-options > input{
+  flex: 1 0 auto;
+  height: 24px;
+  margin: 0 5px 0 0;
+}
+.button-with-options > button{
+  flex: 0 0 auto !important;
+}
+.button-options {
+  display: flex;
+  display: -webkit-flex;
+  -webkit-flex-wrap: wrap;
+}
+.button-options .option {
+  line-height: 15px;
+  font-size: 9px;
+  margin: 0 5px 5px 0;
+  -webkit-flex: 0 0 auto;
+}
+
+.button-with-info:not(:last-of-type) {
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  box-shadow: 0 1px rgba(255,255,255,.1), 0 -1px rgba(0,0,0,.3) inset;
+}
+
+
+.main {
+  flex: 1 0 auto;
+  padding: 5px 0 40px;
+  line-height: 24px;
+}
+
+.content {
+  display: -webkit-flex;
+  -webkit-flex-direction: column;
+  box-sizing: border-box;
+  background: inherit;
+}
+
+.hide {
+  display: none;
+}
+label {
+  margin-right: 5px;
+}
+
+::-webkit-input-placeholder {
+  color: #000;
+  opacity: 0.5;
+  font-style: italic;
+}
+input[type="text"] {
+  padding: 0 5px;
+}
