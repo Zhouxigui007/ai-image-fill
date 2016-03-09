@@ -17,6 +17,7 @@ or
 #### Set `PlayerDebugMode` to 1
 
 **Win:** regedit > HKEY_CURRENT_USER/Software/Adobe/CSXS.6, then add a new entry PlayerDebugMode of type "string" with the value of "1".  
-**Mac:** In the terminal, type: defaults write com.adobe.CSXS.6 PlayerDebugMode 1 (The plist is also located at /Users/USERNAME/Library/Preferences/com.adobe.CSXS.6.plist)
+**Mac:** In the terminal, type: defaults write com.adobe.CSXS.6 PlayerDebugMode 1  
+(The plist is also located at /Users/USERNAME/Library/Preferences/com.adobe.CSXS.6.plist)
 
 [More info here: Adobe CEP Cookbok Repo](https://github.com/Adobe-CEP/CEP-Resources/wiki/CEP-6-HTML-Extension-Cookbook-for-CC-2015#where-are-the-extensions)
