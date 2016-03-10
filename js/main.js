@@ -6,9 +6,13 @@ var clipped = true;
 var placeholderCount = 0;
 var loadedCount = 0;
 var flickrURL = 'https://api.flickr.com/services/rest/?method=flickr.photos.search';
+var unsplashURL = 'https://api.unsplash.com/photos/search/';
 var keys = {
   'flickr' : {
     'api_key': '2cc172fe2157ff04daeee6e8b69b7ee4'
+  },
+  'unsplash' : {
+    'client_id': 'e1f612e4aea133cb275034e76c57b5d2e8ab17b1c2bbb367fd2fd96cc3376b96'
   }
 }
 
@@ -172,17 +176,75 @@ function init() {
       }else {
         csInterface.evalScript("alert('Select at least one placeholder')");
       }
-
     });
   }
 
+  function searchUnsplash(query){
+    loadedCount = 0;
+    clipped = $('#clip').prop('checked');
+    if(debugPanel){
+      $('#output').append(query);
+    }
+    csInterface.evalScript("app.activeDocument.selection.length;", function(selectionLength){
+      if(selectionLength && selectionLength != 0){
+        csInterface.evalScript("$.getPlaceholders();");
+        $('#output').html('Requesting '+selectionLength+' Unsplash Image(s)');
+        var page = (Math.random() * 3 >> 0) + 1;
+        var data = {
+          'client_id': keys.unsplash.client_id,
+          'query': query || 'kittens',
+          'per_page': selectionLength,
+          'page': page
+        }
+        var request = {
+          'url': unsplashURL,
+          'data': data,
+          'dataType': "json",
+          'success': function(response){
+            var count = response.length;
+            placeholderCount = count;
+            $('#output').html('Downloading '+count);
+            var html = '';
+            _.each(response, function(photo){
+              // var src = 'https://farm'+photo.farm+'.staticflickr.com/'+photo.server+'/'+photo.id+'_'+photo.secret+'.jpg'
+              var src = photo.urls.thumb;
+              src = src.replace('w=200&fit=max', 'w=500&h=500&fit=crop');
+              addImageToPlaceholder(src);
+              html += src + '<br>';
+            });
+            if(debugPanel){
+              $('#output').append(this.url+'<br>'+html+'<br>'+JSON.stringify(response));
+            }
+          },
+          'error': function(response){
+            $('#output').html(this.url+'<br>'+'<code>error: <br>' + JSON.stringify(response));
+          }
+        }
+        $.ajax(request);
+
+      }else {
+        csInterface.evalScript("alert('Select at least one placeholder')");
+      }
+    });
+  }
+
+
+
+
   $('#flickr-search-btn').on('click', function(){
-    var tags = $.trim($('#flickr-tags').val());
+    var tags = $.trim($('#search-input').val());
     if(tags.length == 0){
       tags = 'kittens';
     }
     searchFlickr(tags);
-  })
+  });
+  $('#unsplash-search-btn').on('click', function(){
+    var tags = $.trim($('#search-input').val());
+    if(tags.length == 0){
+      tags = 'kittens';
+    }
+    searchUnsplash(tags);
+  });
 
 }
 
@@ -220,5 +282,4 @@ jQuery.extend({
     }
   }
 });
-
 init();
