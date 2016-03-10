@@ -189,12 +189,12 @@ function init() {
       if(selectionLength && selectionLength != 0){
         csInterface.evalScript("$.getPlaceholders();");
         $('#output').html('Requesting '+selectionLength+' Unsplash Image(s)');
-        var page = (Math.random() * 3 >> 0) + 1;
+
         var data = {
           'client_id': keys.unsplash.client_id,
           'query': query || 'kittens',
           'per_page': selectionLength,
-          'page': page
+          'page': 1
         }
         var request = {
           'url': unsplashURL,

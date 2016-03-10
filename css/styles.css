@@ -96,14 +96,22 @@ input[type="text"] {
 
 .button-with-options {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.button-with-options > label{
+  flex: 0 0 20%;
+  margin: 0 0 5px;
+  text-align: center;
 }
 .button-with-options > input{
-  flex: 1 0 auto;
+  flex: 1 0 75%;
   height: 24px;
-  margin: 0 5px 0 0;
+  margin: 0 0 5px;
 }
 .button-with-options > button{
-  flex: 0 0 auto !important;
+  flex: 0 0 49% !important;
+  margin: 0;
 }
 .button-options {
   display: flex;
