@@ -1,6 +1,6 @@
 # ai-flickr-fill
-Simple Adobe Illustrator Panel to generate placeholder image content from Flickr
-![image](https://cloud.githubusercontent.com/assets/444309/13653238/7948f5ca-e61e-11e5-8aca-3b8b16e59d26.png)
+Simple Adobe Illustrator Panel to generate placeholder image content from Flickr or Unsplash
+![image](https://cloud.githubusercontent.com/assets/444309/13677314/5f96db08-e6b7-11e5-9f07-f279ccaf8091.png)
 
 ## Installation
 Adobe doesn't make this very straightforward, and I've never had much success packaging and signing extensions. 
